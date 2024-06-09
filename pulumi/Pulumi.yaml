@@ -1,14 +1,40 @@
 name: CS312_Project2
 runtime: yaml
 description: Minecraft on AWS with Ansible and Pulumi
+
 config:
   pulumi:tags:
     value:
       pulumi:template: aws-yaml
+
 outputs:
-  # Export the name of the bucket
-  bucketName: ${my-bucket.id}
+  # Export the name of the instance
+  serverName: ${mc-server.id}
+
 resources:
-  # Create an AWS resource (S3 Bucket)
-  my-bucket:
-    type: aws:s3:Bucket
+  # Create the Minecraft EC2 Instance
+  mc-server:
+    type: aws:ec2:Instance
+    properties:
+      ami: ami-0eac975a54dfee8cb # Ubuntu server 24.04 LTS arm64
+      instanceType: t4g.small
+      vpcSecurityGroupIds:
+        - ${mc-allow-rule.id}
+
+  # Security group for Minecraft server
+  mc-allow-rule:
+    type: aws:ec2:SecurityGroup
+    properties:
+      ingress:
+        - description: "Minecraft"
+          fromPort: 25565
+          toPort: 25565
+          protocol: "tcp"
+          cidrBlocks:
+            - 0.0.0.0/0
+      egress:
+        - fromPort: 0
+          toPort: 0
+          protocol: "-1"
+          cidrBlocks:
+            - 0.0.0.0/0
