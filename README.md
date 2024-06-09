@@ -1,6 +1,7 @@
 # Minecraft Server on AWS with Pulumi and Ansible
 
-## Installing Pulumi
+## Prerequisites
+### Installing Pulumi
 To install Pulumi, go to the [website](https://www.pulumi.com/docs/install/) and get the latest command to run to install. 
 
 ```bash
@@ -12,38 +13,36 @@ You should now be able to verify that it works by running
 pulumi version
 ```
 
-## Making the Pulumi Project
-To make a new AWS project in Pulumi that will use YAML as the configuration language, run the following command. Note that the folder needs to be empty. 
+### AWS Credentials
+Copy your AWS credentials into the file `~/.aws/credentials`.
+
+### Clone Project
 ```bash
-pulumi new aws-yaml
+git clone git@github.com:BaelfireNightshd/CS312_Project2.git
+cd CS312_Project2/pulumi
 ```
 
-Answer the questions it asks you. Example:
-```
-This command will walk you through creating a new Pulumi project.
-
-Enter a value or leave blank to accept the (default), and press <ENTER>.
-Press ^C at any time to quit.
-
-project name (project): CS312_Project2
-project description (A minimal AWS Pulumi YAML program): Minecraft on AWS with Ansible and Pulumi
-Created project 'CS312_Project2'
-
-Please enter your desired stack name.
-To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`).
-stack name (dev): dev
-Created stack 'dev'
-
-aws:region: The AWS region to deploy into (us-east-1):
-Saved config
-
-Your new project is ready to go!
-
-To perform an initial deployment, run `pulumi up`
+### Set up private keys
+```bash
+ssh-keygen -t ed25519 -f .pulumi_awsacad
+pulumi config set publicKeyPath .pulumi_awsacad.pub
+pulumi config set privateKeyPath .pulumi_awsacad
 ```
 
-## Make an EC2 Server
+## Bringing up
+```bash
+pulumi up
+```
 
+## Bringing down
+```bash
+pulumi down
+```
+
+## Connecting
+### nmap
+
+### Minecraft
 
 
 
