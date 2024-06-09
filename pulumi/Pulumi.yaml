@@ -6,10 +6,15 @@ config:
   pulumi:tags:
     value:
       pulumi:template: aws-yaml
+  publicKeyPath:
+    type: string
+  privateKeyPath:
+    type: string
 
 outputs:
   # Export the name of the instance
   serverName: ${mc-server.id}
+  ipAddress: ${mc-server.publicIp}
 
 resources:
   # Create the Minecraft EC2 Instance
@@ -18,12 +23,16 @@ resources:
     properties:
       ami: ami-0eac975a54dfee8cb # Ubuntu server 24.04 LTS arm64
       instanceType: t4g.small
+      keyName: ${mc-keypair.id}
       vpcSecurityGroupIds:
         - ${mc-allow-rule.id}
+      tags:
+        Name: "Pulumi Minecraft Server"
 
   # Security group for Minecraft server
   mc-allow-rule:
     type: aws:ec2:SecurityGroup
+    name: "Minecraft Allow Rule"
     properties:
       ingress:
         - description: "Minecraft"
@@ -38,3 +47,18 @@ resources:
           protocol: "-1"
           cidrBlocks:
             - 0.0.0.0/0
+      tags:
+        Name: "Minecraft Allow Rule"
+
+  # create a keypair to access MC server
+  mc-keypair:
+    type: aws:ec2:KeyPair
+    properties:
+      publicKey: ${publicKey}
+
+variables:
+  publicKey:
+    fn::readFile: ${publicKeyPath}
+  privateKey:
+    fn::secret:
+      fn::readFile: ${privateKeyPath}

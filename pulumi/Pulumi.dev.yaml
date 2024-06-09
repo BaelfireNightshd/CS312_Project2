@@ -1,2 +1,4 @@
 config:
+  CS312_Project2:privateKeyPath: .pulumi_awsacad
+  CS312_Project2:publicKeyPath: .pulumi_awsacad.pub
   aws:region: us-east-1
