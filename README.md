@@ -42,3 +42,13 @@ Your new project is ready to go!
 To perform an initial deployment, run `pulumi up`
 ```
 
+## Make an EC2 Server
+
+
+
+
+
+## References
+1. https://www.pulumi.com/docs/clouds/aws/get-started/
+1. https://www.pulumi.com/registry/packages/aws/api-docs/ec2/instance/
+1. https://www.pulumi.com/blog/deploy-wordpress-aws-pulumi-ansible/
