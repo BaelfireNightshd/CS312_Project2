@@ -13,6 +13,11 @@ You should now be able to verify that it works by running
 pulumi version
 ```
 
+### Installing Ansible
+```bash
+
+```
+
 ### AWS Credentials
 Copy your AWS credentials into the file `~/.aws/credentials`.
 

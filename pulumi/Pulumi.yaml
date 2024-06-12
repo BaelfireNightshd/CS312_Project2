@@ -41,6 +41,12 @@ resources:
           protocol: "tcp"
           cidrBlocks:
             - 0.0.0.0/0
+        - description: "SS"
+          fromPort: 22
+          toPort: 22
+          protocol: "tcp"
+          cidrBlocks:
+            - 128.193.0.0/16
       egress:
         - fromPort: 0
           toPort: 0
@@ -55,6 +61,33 @@ resources:
     type: aws:ec2:KeyPair
     properties:
       publicKey: ${publicKey}
+
+  # Update Python
+  updatePythonCmd:
+    type: command:remote:Command
+    properties:
+      connection:
+        host: ${mc-server.publicIp}
+        port: 22
+        user: ubuntu
+        privateKey: ${privateKey}
+      create: >
+        (sudo apt update);
+        (sudo apt upgrade);
+        (sudo apt install python3);
+
+  # Run install_minecraft.yml Ansible playbook
+  ansible_install_minecraft:
+    type: command:local:Command
+    options:
+      dependsOn:
+        - ${updatePythonCmd}
+    properties:
+      create: "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook
+        -u ubuntu
+        -i '${mc-server.publicIp},'
+        --private-key ${privateKeyPath}
+        install_minecraft.yml"
 
 variables:
   publicKey:
