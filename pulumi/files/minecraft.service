@@ -1,0 +1,10 @@
+Description=Minecraft Server on start up
+Wants=network-online.target
+[Service]
+User=svc_minecraft
+WorkingDirectory=/opt/minecraft/server
+ExecStart=/opt/minecraft/server/start.sh
+ExecStop=/opt/minecraft/server/stop.sh
+StandardInput=null
+[Install]
+WantedBy=multi-user.target
