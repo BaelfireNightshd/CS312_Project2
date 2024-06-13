@@ -1,7 +1,7 @@
 # Minecraft Server on AWS with Pulumi and Ansible
 
 ## Background
-![Flow chart of process](Flow Diagram.drawio.svg)
+![Flow chart of process](Flow_Diagram.drawio.svg)
 We will provision the resources in AWS using Pulumi. Then, using Ansible, installs a Minecraft server and sets up a systemd service to start it on reboot. 
 
 ## Prerequisites
